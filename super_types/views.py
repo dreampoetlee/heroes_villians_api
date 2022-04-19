@@ -18,3 +18,18 @@ def super_types_list(request):
     serializer.is_valid(raise_exception=True)
     serializer.save()
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'])
+def super_type_detail(request, pk):
+  try:
+    super_type = SuperType.objects.get(pk=pk)
+    serializer = SuperTypeSerializer(super_type)
+    return Response(serializer.data)
+  except SuperType.DoesNotExist:
+    return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+  print(pk)
+  return Response(pk)
