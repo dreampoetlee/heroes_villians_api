@@ -1,4 +1,4 @@
-from this import s
+from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -22,14 +22,12 @@ def super_types_list(request):
 
 @api_view(['GET'])
 def super_type_detail(request, pk):
-  try:
-    super_type = SuperType.objects.get(pk=pk)
+  super_type = get_object_or_404(SuperType, pk=pk)
+  if request.method == 'GET':    
     serializer = SuperTypeSerializer(super_type)
     return Response(serializer.data)
-  except SuperType.DoesNotExist:
-    return Response(status=status.HTTP_404_NOT_FOUND)
-
-
-
-  print(pk)
-  return Response(pk)
+  elif request.method == 'PUT':
+    serializer = SuperTypeSerializer(super_type, data=request.data)
+    serializer.is_valid(raise_exception=True)
+    serializer.save
+    return Response(serializer.data)
