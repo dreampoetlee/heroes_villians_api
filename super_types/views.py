@@ -31,3 +31,6 @@ def super_type_detail(request, pk):
     serializer.is_valid(raise_exception=True)
     serializer.save
     return Response(serializer.data)
+  elif request.method == 'DELETE':
+    super_type()
+    return Response(status=status.HTTP_204_NO_CONTENT)
